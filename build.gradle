@@ -1,0 +1,42 @@
+plugins {
+	id 'org.springframework.boot' version '2.5.1'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'digital.ilia'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+	mavenCentral()
+}
+
+sourceCompatibility = '11'
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.5.9'
+    implementation 'junit:junit:4.13.1'
+    implementation 'junit:junit:4.13.1'
+	implementation group: 'joda-time', name: 'joda-time', version: '2.10.10'
+
+    runtimeOnly 'com.h2database:h2'
+	
+	compileOnly 'org.projectlombok:lombok:1.18.20'
+
+	annotationProcessor 'org.projectlombok:lombok:1.18.20'
+	
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+	testCompileOnly 'org.projectlombok:lombok:1.18.20'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.0.0'
+	testImplementation group: 'com.h2database', name: 'h2', version: '1.4.200'
+	implementation group: 'com.h2database', name: 'h2', version: '1.4.200'
+
+}
+
+test {
+	useJUnitPlatform()
+}

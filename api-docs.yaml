@@ -1,0 +1,200 @@
+openapi: 3.0.1
+info:
+  title: Controle de Ponto API
+  version: "1.0"
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /batidas:
+    post:
+      tags:
+      - Batidas
+      summary: Bater ponto
+      description: Registrar um horário da jornada diária de trabalho
+      operationId: baterPonto
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Momento'
+        required: true
+      responses:
+        "201":
+          description: Horas alocadas ao projeto
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mensagem'
+              examples:
+                Não pode alocar tempo maior que o tempo trabalhado no dia:
+                  description: Não pode alocar tempo maior que o tempo trabalhado
+                    no dia
+                  value:
+                    mensagem: Não pode alocar tempo maior que o tempo trabalhado no
+                      dia
+  /alocacoes:
+    post:
+      tags:
+      - Alocacoes
+      summary: Alocar horas trabalhadas
+      description: "Alocar horas trabalhadas, de um dia de trabalho, em um projeto"
+      operationId: alocar
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Alocacao'
+        required: true
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mensagem'
+              examples:
+                Data e hora em formato inválido:
+                  description: Data e hora em formato inválido
+                  value:
+                    mensagem: Data e hora em formato inválido
+                Campo obrigatório não informado:
+                  description: Campo obrigatório não informado
+                  value:
+                    mensagem: Campo obrigatório não informado
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mensagem'
+              examples:
+                Horários já registrado:
+                  description: Horários já registrado
+                  value:
+                    mensagem: Horários já registrado
+        "403":
+          description: Forbiden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mensagem'
+              examples:
+                apenas 4 horários por dia:
+                  description: apenas 4 horários por dia
+                  value:
+                    mensagem: Apenas 4 horários podem ser registrados por dia
+                mínimo 1 hora de almoço:
+                  description: mínimo 1 hora de almoço
+                  value:
+                    mensagem: Deve haver no mínimo 1 hora de almoço
+                sábado e domingo não são permitidos:
+                  description: sábado e domingo não são permitidos
+                  value:
+                    mensagem: Sábado e domingo não são permitidos como dia de trabalho
+  /folhas-de-ponto/{mes}:
+    get:
+      tags:
+      - Folhas de ponto
+      summary: Bater ponto
+      description: Registrar um horário da jornada diária de trabalho
+      operationId: relatorioMensal
+      parameters:
+      - name: mes
+        in: path
+        required: true
+        content:
+          '*/*':
+            schema:
+              type: string
+              example: 2018-08
+      responses:
+        "200":
+          description: Horas alocadas ao projeto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Relatorio'
+        "404":
+          description: Relatório não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Relatorio'
+components:
+  schemas:
+    Mensagem:
+      type: object
+      properties:
+        mensagem:
+          type: string
+    Momento:
+      required:
+      - dataHora
+      type: object
+      properties:
+        dataHora:
+          type: string
+          description: Data e hora da batida
+          example: 2018-08-22T08:00:00
+      description: O momento da batida
+    Alocacao:
+      type: object
+      properties:
+        dia:
+          type: string
+          format: date
+        tempo:
+          type: string
+          example: PT2H30M0S
+        nomeProjeto:
+          type: string
+          example: ACME Corporation
+      description: Alocação
+    Relatorio:
+      type: object
+      properties:
+        mes:
+          type: string
+          example: 2018-08
+        horasTrabalhadas:
+          type: string
+          example: PT69H35M5S
+        horasExcedentes:
+          type: string
+          example: PT25M5S
+        horasDevidas:
+          type: string
+          example: PT0S
+        registros:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelatorioRegistros'
+        alocacoes:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelatorioAlocacoes'
+      description: Relatório mensal
+    RelatorioAlocacoes:
+      type: object
+      properties:
+        nomeProjeto:
+          type: string
+          example: ACME Corporation
+        tempo:
+          type: string
+          example: PT69H35M5S
+    RelatorioRegistros:
+      type: object
+      properties:
+        dia:
+          type: string
+          format: date
+        horarios:
+          type: array
+          items:
+            type: string
