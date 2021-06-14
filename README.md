@@ -9,12 +9,17 @@ conhecimentos.
 **#FICAADICA**: Siga as instruções abaixo:
 
 ✓ É mais importante qualidade de código do que o desafio 100% feito.
+
 ✓ Se não der tempo de fazer todas as funcionalidades, não tem problema. A ideia é
 validar a solução de problemas, qualidade do código, organização, testes, arquitetura e
 etc.
+
 ✓ Utilize Java 11
+
 ✓ Não utilize implementações como jHipster
+
 ✓ Lembre-se dos testes unitários
+
 ✓ Qualquer dúvida entre em contato conosco
 
 Crie uma web API para controle de ponto, seguindo o contrato, que permite realizar as
