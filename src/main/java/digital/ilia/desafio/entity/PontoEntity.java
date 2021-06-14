@@ -30,6 +30,6 @@ public class PontoEntity {
 
     @Getter
     @Setter
-    private Date dataHora = null;
+    private Date dataHora ;
 
 }
