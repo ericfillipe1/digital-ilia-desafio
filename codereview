@@ -1,0 +1,41 @@
+
+Fala Éric,
+
+Seguem os feedbacks técnicos sobre a prova. Esses feedbacks não são eliminatórios, são mais para te dar uma visão de processos de Code Review que fazemos aqui.
+
+README, ponto de melhoria: não que seja um problema ou algo que interfira na nota, muito mais uma consideração. poderia estar descrito os principais comandos para a execução do projeto, assim os membros que entrarem no time terão melhor conhecimento de como interagir com o projeto
+
+build.gradle, pontos de melhoria: não que seja um problema ou algo que interfira na nota, muito mais uma consideração. no import das dependências foi utilizado dois padrões um com e outro sem group. A dependência junit foi importada 2 vezes
+
+H2, ponto positivo: utilização de banco em memória para interação com a aplicação.
+
+Testes, ponto positivo: implementação de testes
+
+Anotações personalizadas para validação de data e tempo, ponto positivo
+
+FolhasDePontoService, ponto de melhoria: o método getAllDateOfMonth não é chamado na solução
+
+/batidas, ponto de melhoria: sem body não apresentou a mensagem Campo obrigatório não informado
+/batidas, ponto positivo: com body {} implementado corretamente
+/batidas, ponto positivo: data com formato inválido implementado corretamente
+/batidas, ponto positivo: validação de sábado e domingo implementada corretamente
+/batidas, ponto de melhoria: não que seja um problema ou algo que interfira na nota, muito mais uma consideração. há um pequeno erro no response, está sendo retornado a mensagem Horários já registrado, ao invés de Horário já registrado; tem um s a mais e acabou quebrando meu teste no Postman
+pm.test("response value", function () {
+    var expected_json = {
+        "mensagem": "Horário já registrado"
+    };
+
+    pm.expect(pm.response.text()).to.be.equal(JSON.stringify(expected_json))
+});
+
+pm.test("status code", function () {
+    pm.expect(pm.response.code).to.be.equal(409);
+});
+
+/batidas, ponto positivo: validação de apenas 4 horários implementada corretamente
+/batidas, ponto positivo: mínimo 1h de almoço implementada corretamente
+/batidas, ponto de melhoria: o http status de retorno deveria ser 201
+/batidas, ponto de melhoria: é possível registrar horas de forma decrescente 8h, 7h, 6h, 5h
+
+/alocacoes, ponto positivo: Não pode alocar tempo maior que o tempo trabalhado no dia implementado corretamente
+/alocacoes, ponto positivo: implementado corretamente
